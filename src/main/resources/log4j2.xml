@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="customerDao" fileName="   customerDao.log"
+                     filePattern="${log-path}/commons-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+            <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <logger name = "com.crmtracker.dao.CustomerDAOImpl" level = "trace">
+            <appender-ref ref="Console" level="debug"/>
+            <appender-ref ref="customerDao" level="debug"/>
+        </logger>
+
+        <logger name = "com.crmtracker.controller.CustomerController" level = "trace">
+            <appender-ref ref="Console" level="debug"/>
+        </logger>
+
+        <!-- Log SQL statements -->
+        <Logger name="org.hibernate.SQL" level="debug" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
+
+        <root level="trace">
+            <appender-ref ref="Console" level="off"/>
+        </root>
+    </loggers>
+
+
+</configuration>
